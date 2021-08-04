@@ -10,7 +10,7 @@ from BlockClass1 import Block
 screen = turtle.Screen()
 
 GameWindow = Window1(800, 600, 20, 7, screen)
-
+'''
 blockArray = []
 #XCoor Blocks
 for i in range(30):
@@ -21,20 +21,27 @@ for i in range(30):
 for i in range(30,50):
     blockArray.append(Block(-300,-100 + ((i-30)*20),20,0))
     blockArray[i].DrawBlock()
-
-blockArray1 = []
+'''
+col = 4
+rows = 4
+blockArray1 = [[0]*col]*rows
 blockArray2 = []
 
+while col 
+
 '''
-i = 20
-for i in range(i):
-    i -= 1
-    j = i
-    for j in range(j):
-        j -= 1
-        blockArray1[j][i].append([Block(-300 + (i*30),-100 + (i*20),20,0)])
-        blockArray1[j][i].DrawBlock()
-'''
+i = 0
+while i < range(len(blockArray1)):
+    blockArray1.append(Block(-300,-100 + (i*20),20,0))
+    blockArray1[i].DrawBlock()
+    i += 1
+    j = i - 1
+    while j <= range(len(blockArray1[i])):
+        blockArray1.append(Block(-300 + (i*20),-100,20,0))
+        blockArray1[i].DrawBlock()
+        print ('\n' + str(blockArray1))
+        j += 1
+''' 
 
 #This keeps the turtle objects drawing on the screen
 turtle.done()
