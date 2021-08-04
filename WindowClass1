@@ -1,0 +1,19 @@
+import turtle
+
+class Window1 :
+    def __init__(self, width, height, startx, starty, turtle):
+        self.width = width
+        self.height = height
+        self.startx = startx
+        self.starty = starty
+        self.turtle = turtle
+        
+        #Sets the title of the screen
+        turtle.title("Bloons Tower Defense Game")
+        #Sets background color of the screen
+        turtle.bgcolor("white")
+        #Sets the size and position of the screen
+        turtle.setup(width, height, startx, starty)
+
+    def GetTurtle(self):
+        return self.turtle
