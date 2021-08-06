@@ -31,7 +31,6 @@ class Block():
     def DrawBlock(self):
         self.blockturtle.penup()
         self.blockturtle.speed(0)
-        self.blockturtle.pendown()
         if(self.Id == 0):
             self.blockturtle.color("red")
         elif(self.Id == 1):
@@ -42,9 +41,10 @@ class Block():
         self.blockturtle.stamp()
 
     def DrawGrid(self, row_count, column_count):
-        self.blockturtle.setpos(self.x,self.y)
         for c in range(column_count):
             for r in range(row_count):
+                self.blockturtle.penup()
                 self.SetXCoor(-300 + (c*self.size))
                 self.SetYCoor(-100 + (r*self.size))
+                self.blockturtle.setpos(self.x,self.y)
                 self.DrawBlock()
