@@ -5,6 +5,7 @@ import numpy as np
 #I think I need to have the block class inherit the turtle class 100%
 class Block():
     blockturtle = turtle.Turtle()
+    testarray = np.genfromtxt('map1.txt', delimiter = ',')
     turtle.addshape('grass.gif')
     turtle.addshape('redgrass.gif')
     def __init__(self, x, y, size, Id):
@@ -50,7 +51,12 @@ class Block():
             for r in range(row_count):
                 self.blockturtle.penup()
                 self.SetXCoor(xCons + (c*self.size))
-                self.SetYCoor(yCons + (r*self.size))
+                self.SetYCoor(yCons - (r*self.size))
+                if(self.testarray[r][c]==1):
+                    self.Id = 1
+                elif(self.testarray[r][c]==0):
+                    self.Id = 0
+                '''
                 if(self.y <= (yCons + 0*self.size)):
                     self.Id = 1
                 elif(self.x == xCons + (column_count-1)*self.size and self.y <= yCons + int(row_count/5)*self.size):
@@ -61,24 +67,9 @@ class Block():
                     self.Id = 1
                 else:
                     self.Id = 0
+                '''
                 self.blockturtle.setpos(self.x,self.y)
                 self.DrawBlock()
 
-    def CreateArray(self):
-        testarray = np.genfromtxt('map1.txt', delimiter = ',')
-        print(testarray)
-        elif(self.Id == 1):
-            self.blockturtle.color("green")
-        turtle.register_shape("test_square", ((0,0),(0,self.size),(self.size,self.size),(self.size,0)))
-        self.blockturtle.shape("test_square")
-        #Creates Duplicates of the blockturtle object.  THis way we aren't changing data for the same turtle each time.
-        self.blockturtle.stamp()
-
-    def DrawGrid(self, row_count, column_count):
-        for c in range(column_count):
-            for r in range(row_count):
-                self.blockturtle.penup()
-                self.SetXCoor(-300 + (c*self.size))
-                self.SetYCoor(-100 + (r*self.size))
-                self.blockturtle.setpos(self.x,self.y)
-                self.DrawBlock()
+    def PrintArray(self):
+        print(self.testarray)
