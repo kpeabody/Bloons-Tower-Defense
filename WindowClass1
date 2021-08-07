@@ -1,6 +1,4 @@
-import turtle
-
-class Window1 :
+class Window1():
     def __init__(self, width, height, startx, starty, turtle):
         self.width = width
         self.height = height
