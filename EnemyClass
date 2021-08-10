@@ -1,0 +1,28 @@
+import pygame as py
+import numpy as np
+class Enemy():
+    def __init__(self, x, y, blockSize, gridarr):
+        self.x = x
+        self.y = y
+        self.blockSize = blockSize
+        self.gridarr = gridarr
+        self.animation_count = 0
+        self.health = 1
+        #:damagegiven
+        self.enemyimg = None
+
+    def Draw(self, screen, row_count, column_count):
+        self.screen = screen
+        self.row_count = row_count
+        self.column_count = column_count
+
+        #self.animation_count += 1
+        #self.enemyimg = self.enemyimgs[self.animation_count]
+
+        for r in range(row_count):
+            for c in range(column_count):
+                if(self.gridarr[r][c] == 1):
+                    py.draw.circle(self.screen, (255,0,0), (c*self.blockSize, r*self.blockSize), self.blockSize)
+
+    def GetPos():
+        pass
