@@ -1,20 +1,18 @@
 import pygame as py
 import numpy as np
-#Should I make the block class extend the turtle class?
-#This way the Block class will have the same properties as turtle with some additional properties like x, y, width, height, IDGround, IDAir
-#I think I need to have the block class inherit the turtle class 100%
 class Block():
     testarray = np.genfromtxt('map1.txt', delimiter = ',')
-    grass = py.image.load('grass.gif')
-    redgrass = py.image.load('redgrass.gif')
-    def __init__(self, x, y, size, Id):
+    width = 800
+    height = 600
+    #blockpy = py.display.set_mode((width, height))
+    grass = py.image.load('grasstest.png')
+    #redgrass = py.image.load('redgrass.gif')
+    def __init__(self, x, y, size, Id, screen):
         self.x = x
         self.y = y
         self.size = size
         self.Id = Id
-    width = 800
-    height = 600
-    blockpy = py.display.set_mode((width, height))
+        self.screen = screen
 
     def GetXCoor(self):
         return self.x
@@ -34,14 +32,12 @@ class Block():
     def SetSize(self, size):
         self.size = size
 
-    def DrawBlock(self):
-        if(self.Id == 0):
-            self.blockpy.blit(grass, (self.x, self.y))
-        elif(self.Id == 1):
-            self.blockpy.blit(redgrass, (self.x,self.y))
-        #Creates Duplicates of the blockturtle object.  THis way we aren't changing data for the same turtle each time.
-    
-    def DrawGrid(self, row_count, column_count):
+    def GetTestArray(self):
+        return self.testarray
+
+    #Remember the DrawGrid class derives data from a file called map1.txt.
+    #Returns testarray so the Id values of each grid block is known
+    def CreateGrid(self, row_count, column_count):
         #x constant which is set equal to the initial x position
         xCons = self.x
         #y constant which is set equal to the initial y position
@@ -54,4 +50,6 @@ class Block():
                     self.Id = 1
                 elif(self.testarray[r][c]==0):
                     self.Id = 0
-                self.DrawBlock()
+
+    def PrintArray(self):
+        print(self.testarray)
