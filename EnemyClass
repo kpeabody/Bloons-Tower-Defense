@@ -13,16 +13,32 @@ class Enemy():
 
     def Draw(self, screen, row_count, column_count):
         self.screen = screen
+        #These variables are needed for the IsRightOf function.
         self.row_count = row_count
         self.column_count = column_count
+        
+        '''
+        self.animation_count += 1
+        self.enemyimg = self.enemyimgs[self.animation_count]
 
-        #self.animation_count += 1
-        #self.enemyimg = self.enemyimgs[self.animation_count]
+        if self.animation_count >= len(self.enemyimg):
+            self.animation_count = 0
+        '''
 
-        for r in range(row_count):
-            for c in range(column_count):
-                if(self.gridarr[r][c] == 1):
-                    py.draw.circle(self.screen, (255,0,0), (c*self.blockSize, r*self.blockSize), self.blockSize)
+        if(self.IsRightOf()):
+            self.Move()    
+        cir = py.draw.circle(self.screen, (255,0,0), (self.x + (self.row_count*self.blockSize), self.y), self.blockSize)
+
+    def IsRightOf(self):
+        c = 1
+        while c < self.column_count:
+            if(self.gridarr[c-1][0] == 1):
+                return True
+            return False
+
+    def Move(self):
+        self.x -= self.blockSize
+        #self.x = self.x - self.blockSize
 
     def GetPos():
         pass
