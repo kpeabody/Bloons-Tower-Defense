@@ -25,19 +25,20 @@ class Enemy():
             self.animation_count = 0
         '''
 
-        if(self.IsRightOf()):
-            self.Move()    
-        cir = py.draw.circle(self.screen, (255,0,0), (self.x + (self.row_count*self.blockSize), self.y), self.blockSize)
+        if(self.IsLeftOf()):
+            self.MoveLeft()    
+        cir = py.draw.circle(self.screen, (255,0,0), (self.x, self.y), self.blockSize)
 
-    def IsRightOf(self):
-        c = 1
-        while c < self.column_count:
-            if(self.gridarr[c-1][0] == 1):
+    def IsLeftOf(self):
+        r = 0
+        while r < self.row_count:
+            if(self.gridarr[0][r+1] == 1):
                 return True
             return False
 
-    def Move(self):
-        self.x -= self.blockSize
+    def MoveLeft(self):
+        speed = 1
+        self.x -= speed
         #self.x = self.x - self.blockSize
 
     def GetPos():
