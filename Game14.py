@@ -54,16 +54,17 @@ class Game():
         FPS = 60
         clock = py.time.Clock()
 
+        en = Enemy(xCoor + self.row_count*self.blockSize, yCoor, self.blockSize, self.gridarr)
+
         while not gameover:
+            self.screen.fill((0,0,0))
             #Sets the frames per second the run loop will draw things onto the screen
             clock.tick(FPS)
+            self.DrawGrid()
             for event in py.event.get():
                 if event.type == py.QUIT:
                     gameover = True
-                self.DrawGrid()
-            en = Enemy(self.row_count, yCoor, self.blockSize, self.gridarr)
             en.Draw(self.screen, self.row_count, self.column_count)
-
             py.display.update()
 
     def DrawGrid(self):
