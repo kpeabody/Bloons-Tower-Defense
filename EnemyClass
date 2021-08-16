@@ -24,22 +24,36 @@ class Enemy():
         if self.animation_count >= len(self.enemyimg):
             self.animation_count = 0
         '''
-
-        if(self.IsLeftOf()):
-            self.MoveLeft()    
         cir = py.draw.circle(self.screen, (255,0,0), (self.x, self.y), self.blockSize)
 
-    def IsLeftOf(self):
-        r = 0
-        while r < self.row_count:
-            if(self.gridarr[0][r+1] == 1):
-                return True
-            return False
+        #Draws enemy onto map accourding to a map 1 layout.
+        c = self.column_count - 1
+        r = 1
+        try:
+            while c <= self.column_count and c > 0:
+                while r  <= self.row_count and r > 0:
+                    if(self.gridarr[c-1][1] == 1):
+                        print(r)
+                        print(c)
+                        self.MoveLeft()
+                        r += 1
+                        c -= 1
+                    if(self.gridarr[c-1][1] == 0):
+                        self.MoveDown()
+                        break
+                if(self.gridarr[c-1][1] == 0):
+                    break
+        except Exception:
+            print("WTF")
+
 
     def MoveLeft(self):
         speed = 1
         self.x -= speed
-        #self.x = self.x - self.blockSize
+    
+    def MoveDown(self):
+        speed = 1
+        self.y += speed
 
     def GetPos():
         pass
