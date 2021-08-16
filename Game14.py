@@ -6,7 +6,7 @@ from EnemyClass import Enemy
 width = 800
 height = 600
 blockSize = 20
-xCoor = 90
+xCoor = 80
 yCoor = 5
 
 class Game():
@@ -17,8 +17,8 @@ class Game():
         self.height = height
         self.blockSize = blockSize
         self.screen = py.display.set_mode((self.width, self.height))
-        self.row_count = 31
-        self.column_count = 21
+        self.row_count = 33
+        self.column_count = 23
         self.gridarr = np.genfromtxt('map1.txt', delimiter = ',')
         self.grass = py.image.load('grass.gif')
         self.redgrass = py.image.load('redgrass.gif')
@@ -54,17 +54,17 @@ class Game():
         FPS = 60
         clock = py.time.Clock()
 
-        en = Enemy(xCoor + self.row_count*self.blockSize, yCoor, self.blockSize, self.gridarr)
+        en = Enemy(xCoor + self.row_count*self.blockSize - self.blockSize, yCoor + self.blockSize, self.blockSize, self.gridarr)
 
         while not gameover:
             self.screen.fill((0,0,0))
-            #Sets the frames per second the run loop will draw things onto the screen
-            clock.tick(FPS)
             self.DrawGrid()
+            en.Draw(self.screen, self.row_count, self.column_count)
             for event in py.event.get():
                 if event.type == py.QUIT:
                     gameover = True
-            en.Draw(self.screen, self.row_count, self.column_count)
+            #Sets the frames per second the run loop will draw things onto the screen
+            clock.tick(FPS)
             py.display.update()
 
     def DrawGrid(self):
