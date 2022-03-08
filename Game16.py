@@ -121,14 +121,14 @@ class Game():
         #This declares the enemy if the enemy has not already been declared
         if (self.en == None):
             self.en = Enemy(en_startx, en_starty, self.blockSize, self.gridarr)
+            self.enArr = [self.en]
+            for x in range(1,6):
+                self.enArr = np.append(self.enArr, Enemy(en_startx + (x*20), en_starty, self.blockSize, self.gridarr))
 
-        self.enArr = [self.en]
-        
-        for x in range(1,6):
-            self.enArr = np.append(self.enArr, Enemy(en_startx + (x*20), en_starty, self.blockSize, self.gridarr))
-            self.enArr[x-1].Draw(self.screen, self.row_count, self.column_count)
+        for x in range(6):
+            self.enArr[x].Draw(self.screen, self.row_count, self.column_count)
             print(self.enArr)
-
+    
     #Prints ExtraGridInfo Array and GridArr Array
     def PrintOnlyOnce(self):
         if(self.extragridinfo.size < ((self.row_count * self.column_count) * 2) + 1):
