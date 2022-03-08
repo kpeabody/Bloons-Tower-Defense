@@ -22,7 +22,7 @@ class Enemy():
         c = column_count - 1
 
         self.FPS.tick(1)
-        """
+
         if(self.x == 100 and self.y == 25):
             self.MoveDown()
         elif(self.x == 100 and self.y == 45):
@@ -74,7 +74,7 @@ class Enemy():
         else:
             if (not(self.x == 700 and self.y == 425)):
                 self.MoveLeft()
-        """
+                
         self.MoveLeft()
         cir = py.draw.circle(self.screen, (255,0,0), (self.x + self.blockSize/2, self.y + self.blockSize/2), self.blockSize/2)
 
@@ -92,3 +92,4 @@ class Enemy():
     def MoveDown(self):
         speed = self.blockSize
         self.y += speed
+
