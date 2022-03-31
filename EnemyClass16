@@ -23,6 +23,8 @@ class Enemy():
 
         self.FPS.tick(1)
 
+        cir = py.draw.circle(self.screen, (255,0,0), (self.x + self.blockSize/2, self.y + self.blockSize/2), self.blockSize/2)
+
         if(self.x == 100 and self.y == 25):
             self.MoveDown()
         elif(self.x == 100 and self.y == 45):
@@ -75,8 +77,6 @@ class Enemy():
             if (not(self.x == 700 and self.y == 425)):
                 self.MoveLeft()
                 
-        self.MoveLeft()
-        cir = py.draw.circle(self.screen, (255,0,0), (self.x + self.blockSize/2, self.y + self.blockSize/2), self.blockSize/2)
 
     #Doesn't actually move the object itself
     def MoveLeft(self):
@@ -92,4 +92,3 @@ class Enemy():
     def MoveDown(self):
         speed = self.blockSize
         self.y += speed
-
