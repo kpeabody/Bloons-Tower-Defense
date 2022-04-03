@@ -21,7 +21,7 @@ class Enemy():
         r = row_count - 1
         c = column_count - 1
 
-        self.FPS.tick(1)
+        self.FPS.tick(10)
 
         cir = py.draw.circle(self.screen, (255,0,0), (self.x + self.blockSize/2, self.y + self.blockSize/2), self.blockSize/2)
 
