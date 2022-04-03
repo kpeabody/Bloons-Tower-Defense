@@ -2,7 +2,7 @@ import pygame as py
 import numpy as np
 import sys
 from EnemyClass import Enemy
-
+from HumanClass import Human
 width = 800
 height = 600
 blockSize = 20
@@ -26,14 +26,22 @@ class Game():
         self.start = py.transform.scale(self.start_img, (40,40))
         self.end_img = py.image.load('end.gif')
         self.end = py.transform.scale(self.end_img, (40,40))
-        self.enemy = []
-        self.tower = []
+        self.towermarket_img = py.image.load('towermarket.gif')
+        self.towermarket = py.transform.scale(self.towermarket_img, (660,65))
         #The enemies initial x and y position must remain constant
         self.EN_X = 0
         self.EN_Y = 0
         self.en = None
+        self.enNumber = 20
         self.enArr = []
         self.extragridinfo = np.array([0,0])
+        #Used For Towers
+        self.left_click_pressed = False
+        self.right_click_pressed = False
+        self.humanpos = 0
+        self.human = None
+        self.humanArr = []
+        self.human_draging = False
 
     def GetXCoor(self):
         return self.x
@@ -70,6 +78,7 @@ class Game():
             for event in py.event.get():
                 if event.type == py.QUIT:
                     gameover = True
+               
             #Sets the frames per second the run loop will draw things onto the screen
             clock.tick(FPS)
             py.display.update()
@@ -122,21 +131,46 @@ class Game():
         if (self.en == None):
             self.en = Enemy(en_startx, en_starty, self.blockSize, self.gridarr)
             self.enArr = [self.en]
-            for x in range(1,6):
+            for x in range(1,self.enNumber):
                 self.enArr = np.append(self.enArr, Enemy(en_startx + (x*20), en_starty, self.blockSize, self.gridarr))
 
-        for x in range(6):
+        for x in range(self.enNumber):
             self.enArr[x].Draw(self.screen, self.row_count, self.column_count)
-            print(self.enArr)
-    
+        
+        self.screen.blit(self.towermarket, (80, 465))
+
+        #Logic For Human Tower In Market Place
+        mousepos = py.mouse.get_pos()
+        mouse_pressed = py.mouse.get_pressed()
+        if mouse_pressed[0] and mousepos[0] <= 192:
+            self.left_click_pressed = True
+        if self.left_click_pressed == False:
+            print(mousepos)
+        elif self.left_click_pressed == True and mouse_pressed[2] and self.right_click_pressed == False:
+            self.screen.blit(self.start, (mousepos))
+            self.right_click_pressed = True
+            self.humanpos = mousepos
+        if self.right_click_pressed == True and self.human == None and self.humanArr == []:
+            self.human = Human(self.humanpos, self.blockSize)
+            self.humanArr = [self.human]
+        elif self.right_click_pressed == True and self.human == None:
+            self.human = Human(self.humanpos, self.blockSize)
+            self.humanArr = np.append(self.humanArr, self.human)
+        if self.left_click_pressed == True and self.right_click_pressed == True:
+            self.left_click_pressed = False
+            self.right_click_pressed = False
+            self.human = None
+        if self.humanArr != []:
+            humanArrSize = len(self.humanArr)
+            for x in range(humanArrSize):
+                self.humanArr[x].Draw(self.screen)
+
     #Prints ExtraGridInfo Array and GridArr Array
     def PrintOnlyOnce(self):
         if(self.extragridinfo.size < ((self.row_count * self.column_count) * 2) + 1):
             self.extragridinfo = self.extragridinfo.reshape((self.row_count * self.column_count),2)
             print('Coordinates For Every Point Array')
             print(self.extragridinfo)
-        print('Grid Array')
-        print(self.gridarr)
-
+        
 game = Game(xCoor,yCoor, width, height, 20)
 game.run()
