@@ -1,4 +1,5 @@
 import pygame as py
+from pygame import mixer
 import numpy as np
 import sys
 from EnemyClass import Enemy
@@ -37,11 +38,12 @@ class Game():
         self.extragridinfo = np.array([0,0])
         #Used For Towers
         self.left_click_pressed = False
-        self.right_click_pressed = False
+        self.left_click_up = False
         self.humanpos = 0
         self.human = None
         self.humanArr = []
         self.human_draging = False
+        self.mousepos = py.mouse.get_pos()
 
     def GetXCoor(self):
         return self.x
@@ -75,9 +77,17 @@ class Game():
         while not gameover:
             self.screen.fill((0,0,0))
             self.Draw()
+            
             for event in py.event.get():
                 if event.type == py.QUIT:
                     gameover = True
+                #Logic For Human Tower In Market Place
+                self.mousepos = py.mouse.get_pos()
+                if event.type == py.MOUSEBUTTONDOWN and self.mousepos[0] <= 192:
+                    self.left_click_pressed = True
+                if self.left_click_pressed == True and event.type == py.MOUSEBUTTONUP and self.left_click_up == False:
+                    self.left_click_up = True
+                    self.humanpos = self.mousepos
                
             #Sets the frames per second the run loop will draw things onto the screen
             clock.tick(FPS)
@@ -138,39 +148,46 @@ class Game():
             self.enArr[x].Draw(self.screen, self.row_count, self.column_count)
         
         self.screen.blit(self.towermarket, (80, 465))
-
-        #Logic For Human Tower In Market Place
-        mousepos = py.mouse.get_pos()
-        mouse_pressed = py.mouse.get_pressed()
-        if mouse_pressed[0] and mousepos[0] <= 192:
-            self.left_click_pressed = True
-        if self.left_click_pressed == False:
-            print(mousepos)
-        elif self.left_click_pressed == True and mouse_pressed[2] and self.right_click_pressed == False:
-            self.screen.blit(self.start, (mousepos))
-            self.right_click_pressed = True
-            self.humanpos = mousepos
-        if self.right_click_pressed == True and self.human == None and self.humanArr == []:
-            self.human = Human(self.humanpos, self.blockSize)
+        
+        if self.left_click_up == True and self.human == None and len(self.humanArr) == 0:
+            self.human = Human(self.screen, self.humanpos, self.blockSize)
             self.humanArr = [self.human]
-        elif self.right_click_pressed == True and self.human == None:
-            self.human = Human(self.humanpos, self.blockSize)
+        elif self.left_click_up == True and self.human == None:
+            self.human = Human(self.screen, self.humanpos, self.blockSize)
             self.humanArr = np.append(self.humanArr, self.human)
-        if self.left_click_pressed == True and self.right_click_pressed == True:
+        if self.left_click_pressed == True and self.left_click_up == True:
             self.left_click_pressed = False
-            self.right_click_pressed = False
+            self.left_click_up = False
             self.human = None
-        if self.humanArr != []:
+        if len(self.humanArr) != 0:
             humanArrSize = len(self.humanArr)
             for x in range(humanArrSize):
-                self.humanArr[x].Draw(self.screen)
+                takeo = self.humanArr[x].Draw(self.screen)
+                if takeo.collidepoint(self.humanpos):
+                    offset_humanposx = self.humanpos[0] - self.mousepos[0]
+                    offset_humanposy = self.humanpos[1] - self.mousepos[1]
+                    self.humanpos = (offset_humanposx, offset_humanposy)
+                    mixer.init()
+                    mixer.music.load("pinocchio.mp3")
+                    mixer.music.set_volume(0.7)
+                    mixer.music.play()
+
+        if self.left_click_pressed == True:
+            self.screen.blit(self.start, (self.mousepos))
 
     #Prints ExtraGridInfo Array and GridArr Array
     def PrintOnlyOnce(self):
         if(self.extragridinfo.size < ((self.row_count * self.column_count) * 2) + 1):
             self.extragridinfo = self.extragridinfo.reshape((self.row_count * self.column_count),2)
-            print('Coordinates For Every Point Array')
-            print(self.extragridinfo)
+        #Adds gridarr to extragridinfo
+        temp_gridarr = self.gridarr.reshape(759, 1)
+        self.extragridinfo = np.concatenate((self.extragridinfo, temp_gridarr), axis = 1)
+        print(self.extragridinfo)
+        print(self.extragridinfo.shape)
+    
+    def PrintThisAlso(self):
+        if(self.extragridinfo.)
+        
         
 game = Game(xCoor,yCoor, width, height, 20)
 game.run()
