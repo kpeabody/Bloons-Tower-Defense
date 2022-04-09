@@ -1,0 +1,14 @@
+import pygame as py
+import numpy as np
+class Human():
+    def __init__(self, screen, pos, blockSize):
+        self.screen = screen
+        self.pos = pos
+        self.blockSize = blockSize
+        self.takeo_img = py.image.load('takeo.gif')
+        self.takeo = py.transform.scale(self.takeo_img, (20,20))
+
+    def Draw(self, screen):
+        self.screen = screen
+        takeo_var = self.screen.blit(self.takeo, (self.pos))
+        return(takeo_var)
