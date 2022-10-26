@@ -39,7 +39,7 @@ class Game():
         #Used For Towers
         self.left_click_pressed = False
         self.left_click_up = False
-        self.humanpos = 0
+        self.humanpos = (0,0)
         self.human = None
         self.humanArr = []
         self.human_draging = False
@@ -83,11 +83,40 @@ class Game():
                     gameover = True
                 #Logic For Human Tower In Market Place
                 self.mousepos = py.mouse.get_pos()
-                if event.type == py.MOUSEBUTTONDOWN and self.mousepos[0] <= 192:
+                if event.type == py.MOUSEBUTTONDOWN and self.mousepos[0] <= 192 and self.mousepos[0] >= 80 and self.mousepos[1] >= 465 and self.mousepos[1] <=530:
+                    self.human_draging = True
                     self.left_click_pressed = True
-                if self.left_click_pressed == True and event.type == py.MOUSEBUTTONUP and self.left_click_up == False:
-                    self.left_click_up = True
-                    self.humanpos = self.mousepos
+                    temp_x = 0
+                    temp_y = 0
+                temp_x = int
+                temp_y = int
+
+                for c in range(len(self.extragridinfo)):
+                    if(self.extragridinfo[c][2] == 1):
+                        temp_x = int (self.extragridinfo[c][0])
+                        temp_y = int (self.extragridinfo[c][1])
+
+                        notOnPath = not(int(self.humanpos[0]) >= temp_x and int(self.humanpos[0]) <= temp_x + self.blockSize) and not(int(self.humanpos[1]) >= temp_y and int(self.humanpos[1]) <= temp_y + self.blockSize)
+                        if self.left_click_pressed == True and event.type == py.MOUSEBUTTONUP and self.left_click_up == False:
+                            self.left_click_up = True
+                            self.human_draging = False
+                            #keep temp_human_pos
+                            temp_human_pos = self.mousepos
+                            if int(self.mousepos[1]) >= 465 or int(self.mousepos[0]) <= 80:
+                                if int(self.mousepos[1]) >= 465:
+                                    #please do not change next line but take inspiration from it's logic
+                                    temp_human_pos = [int(temp_human_pos[0]), (int(self.mousepos[1])) - (abs(int(self.mousepos[1]) - 465)) - self.blockSize]
+                                if int(self.mousepos[0]) <= 80:
+                                    #please do not change next line but take inspiration from it's logic
+                                    temp_human_pos = [(int(self.mousepos[0])) - (abs(int(self.mousepos[0])) - 80),int(temp_human_pos[1])]
+                            else:
+                                temp_human_pos = self.mousepos
+                            self.humanpos = temp_human_pos
+                        else:
+                            self.left_click_up = False
+                            self.human_draging = True
+                            #print(self.humanArr)
+                    
                
             #Sets the frames per second the run loop will draw things onto the screen
             clock.tick(FPS)
@@ -183,10 +212,9 @@ class Game():
         temp_gridarr = self.gridarr.reshape(759, 1)
         self.extragridinfo = np.concatenate((self.extragridinfo, temp_gridarr), axis = 1)
         print(self.extragridinfo)
-        print(self.extragridinfo.shape)
     
-    def PrintThisAlso(self):
-        if(self.extragridinfo.)
+    '''def PrintThisAlso(self):
+        if(self.extragridinfo)'''
         
         
 game = Game(xCoor,yCoor, width, height, 20)
